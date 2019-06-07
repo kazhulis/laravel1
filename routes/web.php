@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'CategoryController@index')->name('categories');
+Route::get('/category/{id}', 'CategoryController@show')->where('id', '[0-9]+');
 
 Auth::routes();
 
