@@ -8,20 +8,19 @@ use App\Category;
 use App\Picture;
 use Auth;
 
-class PostController extends Controller
-{
+class PostController extends Controller {
+
     public function __construct() {
-        $this->middleware('auth')->only(['create','store','index']);
+        $this->middleware('auth')->only(['create', 'store', 'index']);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+        return view('my_posts', ['posts' => Post::where('user_id', Auth::id())->get()]);
     }
 
     /**
@@ -29,9 +28,8 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('create_post', ['categories' => Category::all()->sortBy('name')->pluck('name','id')]);
+    public function create() {
+        return view('create_post', ['categories' => Category::all()->sortBy('name')->pluck('name', 'id')]);
     }
 
     /**
@@ -40,25 +38,25 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $rules = $rules = array(
             'title' => 'required|min:3|max:200',
             'description' => 'required|min:3|max:10000',
             'category' => 'required|exists:categories,id',
             'price' => ['required', 'regex:/^(?:[1-9]\d*|0)?(?:\.\d+)?/', 'not_in:0'],
+            'image' => 'required',
             'image.*' => 'required|image|max:1999',
         );
-        
+
         $messages = [
             'title.max' => 'Title should be less than 200 characters!',
             'price' => 'The price you\'ve entered is in a wrong format!',
             'image.max' => 'The maximum image size is 2MB!',
             'image.image' => 'The uploaded file should be an image!',
         ];
-        
+
         $this->validate($request, $rules, $messages);
-        
+
         //Create a new post
         $post = new Post;
         $post->user_id = Auth::id();
@@ -67,20 +65,64 @@ class PostController extends Controller
         $post->price = $request->price;
         $post->category_id = $request->category;
         $post->save();
-        
-        
+
+
         $ImgFolder = 'public/upload/';
         foreach ($request->image as $image) {
             $imgExt = $image->getClientOriginalExtension();
-            $filename = uniqid() . '.' . $imgExt;
-            $image->storeAs($ImgFolder, $filename);
-            
+            $filename = uniqid();
+            $image->storeAs($ImgFolder, $filename . '.' . $imgExt);
+
+
+            $path = '/storage/upload/' . $filename . '.' . $imgExt;
+            $fullpath = public_path() . $path;
+
+            //Change image to jpeg
+            $im = new \imagick();
+
+            $im->readImage(public_path() . '/storage/upload/' . $filename . '.' . $imgExt);
+            $im->setImageColorspace(255);
+            $im->setCompression(\Imagick::COMPRESSION_JPEG);
+            $im->setCompressionQuality(80);
+            $im->setImageFormat('jpg');
+
+            //write image on server 
+            $im->writeImage(public_path() . '/storage/upload/' . $filename . '.jpg');
+            $im->clear();
+            $im->destroy();
+
+            //MAKE THUMBNAIL
+            $desired_width = 200;
+            $src = $dest = public_path() . '/storage/upload/' . $filename . '.jpg';
+
+            /* read the source image */
+            $source_image = imagecreatefromjpeg($src);
+            $width = imagesx($source_image);
+            $height = imagesy($source_image);
+
+            /* find the "desired height" of this thumbnail, relative to the desired width  */
+            $desired_height = floor($height * ($desired_width / $width));
+
+            /* create a new, "virtual" image */
+            $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
+
+            /* copy source image at a resized size */
+            imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
+
+            /* create the physical thumbnail image to its destination */
+            imagejpeg($virtual_image, $dest);
+            //END THUMBNAIL
+
+
             $picture = new Picture;
             $picture->post_id = $post->id;
-            $picture->path = $ImgFolder . $filename;
+            $picture->path = '/storage/upload/' . $filename . '.jpg';
             $picture->save();
+            if ($imgExt != 'jpg') {
+                \Storage::delete('public/upload/' . $filename . '.' . $imgExt);
+            }
         }
-        
+
         return redirect('/');
     }
 
@@ -90,8 +132,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         $post = Post::FindOrFail($id);
         return view('post', ['post' => $post]);
     }
@@ -102,8 +143,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         //
     }
 
@@ -114,8 +154,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         //
     }
 
@@ -125,8 +164,8 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
+
 }

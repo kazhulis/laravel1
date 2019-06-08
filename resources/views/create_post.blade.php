@@ -62,7 +62,7 @@
                     <div class="form-group row">
                         {!! Form::label('image[]', 'Images', ['class' => 'col-md-4 control-label text-md-right']) !!}
                         <div class="col-md-6">
-                            {!! Form::file('image[]', ['class' => 'form-control '.(empty($errors) ? ' is-invalid' : '' ), 'multiple' => 'true']) !!}
+                            {!! Form::file('image[]', ['class' => 'form-control '.($errors->has('image') ? ' is-invalid' : '' ), 'multiple' => 'true']) !!}
                         </div>
                     </div>
                     <div class="form-group row">
