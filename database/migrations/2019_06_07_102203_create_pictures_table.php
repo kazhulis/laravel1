@@ -16,7 +16,10 @@ class CreatePicturesTable extends Migration
         Schema::create('pictures', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->bigInteger('post_id');
             $table->string('path');
+            
+            $table->foreign('post_id')->references('posts')->on('id');
         });
     }
 

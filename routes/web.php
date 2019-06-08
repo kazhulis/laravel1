@@ -12,8 +12,11 @@
 */
 
 Route::get('/', 'CategoryController@index')->name('categories');
-Route::get('/category/{id}', 'CategoryController@show')->where('id', '[0-9]+');
+Route::get('/category/{id}', 'CategoryController@show')->where('id', '[0-9]+')->name('category');
+Route::get('/post/{id}', 'PostController@show')->where('id', '[0-9]+')->name('post');
+Route::get('/post/new', 'PostController@create')->name('new_post');
+Route::post('/post/new', 'PostController@store');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'PostController@index')->name('my_posts');
