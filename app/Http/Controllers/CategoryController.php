@@ -18,7 +18,17 @@ class CategoryController extends Controller {
 
     public function show($id) {
         if (Post::where('category_id', $id)->exists()) {
-            return view('category_posts', array('category' => Category::find($id)->name, 'posts' => Post::where('category_id', $id)->get()));
+            $queries = [];
+            $posts = Post::where('category_id', $id);
+            
+            if (request()->has('sort')) {
+                $posts = $posts->orderBy('created_at', request('sort'));
+                $queries['sort'] = request('sort');
+            }
+            
+            $posts = $posts->paginate(10)->appends($queries);
+            
+            return view('category_posts', array('category' => Category::find($id)->name, 'posts' => $posts));
         } else {
             return redirect('post/new')->withMessage('The are no posts currently in ' . Category::Find($id)->name . ' category! Help us and create new posts!');
         }
