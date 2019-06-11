@@ -15,6 +15,7 @@ class PictureTableSeeder extends Seeder
         for ($i = 1; $i <= 50; $i++) {
             DB::table('pictures')->insert([
                 'path' => '/storage/upload/no_image.png',
+                'thumbnail' => '/storage/upload/no_image.png',
                 'post_id' => $i,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

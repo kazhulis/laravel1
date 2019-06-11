@@ -18,6 +18,7 @@ class CreatePicturesTable extends Migration
             $table->timestamps();
             $table->bigInteger('post_id');
             $table->string('path');
+            $table->string('thumbnail');
             
             $table->foreign('post_id')->references('posts')->on('id');
         });

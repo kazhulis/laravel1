@@ -16,6 +16,7 @@ Route::get('/category/{id}', 'CategoryController@show')->where('id', '[0-9]+')->
 Route::get('/post/{id}', 'PostController@show')->where('id', '[0-9]+')->name('post');
 Route::get('/post/new', 'PostController@create')->name('new_post');
 Route::post('/post/new', 'PostController@store');
+Route::get('/post/delete/{id}', 'PostController@destroy')->where('id', '[0-9]+')->name('delete');
 
 Auth::routes();
 

@@ -7,11 +7,12 @@ use App\Post;
 use App\Category;
 use App\Picture;
 use Auth;
+use App\User;
 
 class PostController extends Controller {
 
     public function __construct() {
-        $this->middleware('auth')->only(['create', 'store', 'index']);
+        $this->middleware('auth')->only(['create', 'store', 'index','destroy']);
     }
 
     /**
@@ -87,13 +88,13 @@ class PostController extends Controller {
             $im->setImageFormat('jpg');
 
             //write image on server 
-            $im->writeImage(public_path() . '/storage/upload/' . $filename . '.jpg');
+            $im->writeImage(public_path() . '/storage/thumbnail/' . $filename . '.jpg');
             $im->clear();
             $im->destroy();
 
             //MAKE THUMBNAIL
             $desired_width = 200;
-            $src = $dest = public_path() . '/storage/upload/' . $filename . '.jpg';
+            $src = $dest = public_path() . '/storage/thumbnail/' . $filename . '.jpg';
 
             /* read the source image */
             $source_image = imagecreatefromjpeg($src);
@@ -116,14 +117,12 @@ class PostController extends Controller {
 
             $picture = new Picture;
             $picture->post_id = $post->id;
-            $picture->path = '/storage/upload/' . $filename . '.jpg';
+            $picture->path = '/storage/upload/' . $filename . '.' . $imgExt;
+            $picture->thumbnail = '/storage/thumbnail/' . $filename . '.jpg';
             $picture->save();
-            if ($imgExt != 'jpg') {
-                \Storage::delete('public/upload/' . $filename . '.' . $imgExt);
-            }
         }
 
-        return redirect('/');
+        return redirect('/home')->withMessage('You have successfully added a new post!');
     }
 
     /**
@@ -134,7 +133,8 @@ class PostController extends Controller {
      */
     public function show($id) {
         $post = Post::FindOrFail($id);
-        return view('post', ['post' => $post]);
+        $owner = User::Find($post->user_id);
+        return view('post', ['post' => $post, 'owner' => $owner]);
     }
 
     /**
@@ -165,7 +165,17 @@ class PostController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        //
+        $post = Post::findOrFail($id);
+        $post_owner = $post->user_id;
+        
+        if ($post_owner != Auth::id()) {
+            abort('404');
+        }
+        
+        Picture::where('post_id',$post->id)->delete();
+        $post->delete();
+        
+        return redirect('/home')->withMessage('You have successfully deleted a post!');
     }
 
 }

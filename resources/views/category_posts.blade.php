@@ -13,16 +13,18 @@
         <table class="table table-striped">
             <thead class="thead-dark">
                 <tr>
+                    <th scope="col">Thumbnail</th>
+                    <th class="w-50" scope="col">Title</th>
                     <th class="w-25" scope="col">Creation date</th>
-                    <th scope="col">Title</th>
                     <th scope="col">Price</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($posts as $post)
                 <tr>
-                    <td>{{$post->created_at}}</td>
+                    <td><img src="{{asset($post->pictures->first()->thumbnail)}}" alt="Thumbnail" style="max-height: 100px;"></img></td>
                     <td><a href="{{route('post',['id' => $post->id])}}">{{$post->title}}</td>
+                    <td>{{$post->created_at}}</td>
                     <td>{{$post->price}} €</td>
                 </tr>
                 @endforeach
