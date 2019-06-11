@@ -12,8 +12,8 @@
             <li class="breadcrumb-item active" aria-current="page">Post #{{$post->id}}</li>
         </ol>
     </nav>
-
-    <div class="row">
+    
+    <div class="row justify-content-center">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -46,7 +46,7 @@
         <h5>{{ $post->description }}</h5><br>
         <h4 class="text-success"><b> PRICE: €{{ $post->price }}</b></h4>
         <hr>
-        <h5><b>Owner contact's</b></h5>
+        <h5><b>Owner's contacts</b></h5>
         <h6>Owner's name: {{ $owner->name }} </h6>
         <h6>E-mail: <b>{{ $owner->email }}</b></h6>
     </div>
@@ -54,50 +54,4 @@
 
 </div>
 
-
-<script>
-    function openModal() {
-        document.getElementById("myModal").style.display = "block";
-    }
-
-// Close the Modal
-    function closeModal() {
-        document.getElementById("myModal").style.display = "none";
-    }
-
-    var slideIndex = 1;
-    showSlides(slideIndex);
-
-// Next/previous controls
-    function plusSlides(n) {
-        showSlides(slideIndex += n);
-    }
-
-// Thumbnail image controls
-    function currentSlide(n) {
-        showSlides(slideIndex = n);
-    }
-
-    function showSlides(n) {
-        var i;
-        var slides = document.getElementsByClassName("mySlides");
-        var dots = document.getElementsByClassName("demo");
-        var captionText = document.getElementById("caption");
-        if (n > slides.length) {
-            slideIndex = 1
-        }
-        if (n < 1) {
-            slideIndex = slides.length
-        }
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
-        slides[slideIndex - 1].style.display = "block";
-        dots[slideIndex - 1].className += " active";
-        captionText.innerHTML = dots[slideIndex - 1].alt;
-    }
-</script>
 @endsection

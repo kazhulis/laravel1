@@ -8,11 +8,17 @@
             <li class="breadcrumb-item active" aria-current="page">Home page</li>
         </ol>
     </nav>
-    @if(session()->has('message'))
-    <div class="alert alert-success" role="alert">
-        {{ session()->get('message') }}
+    @if (Auth::user()->isBlocked())
+    <div class="alert alert-danger" role="alert">
+        You are banned for undisclosed reasons! You cannot post, edit or delete posts.
     </div>
-    @endif    
+    @endif
+    
+    @if(session()->has('errors'))
+    <div class="alert alert-danger" role="alert">
+        {{ session()->get('errors')->first() }}
+    </div>
+    @endif  
     <div class="d-flex row">
         @foreach ($posts as $post)
         <div class="col-lg-3 col-sm-4 col-xs-2">
@@ -24,6 +30,7 @@
                     <h5 class="card-title">{{$post->title}}</h5>
                     <h4 class="card-text text-success"><b>€{{$post->price}}</b></p>
                         <a href="{{route('post', ['id' => $post->id])}}" class="btn btn-light">View</a>
+                        <a href="{{route('edit', ['id' => $post->id])}}" class="btn btn-light">Edit</a>
                         <a href="{{route('delete', ['id' => $post->id])}}" onclick="return confirm('Are you sure you want to delete this item?')" class="btn btn-danger float-right">Delete</a>
                 </div>
             </div>

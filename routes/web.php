@@ -17,6 +17,11 @@ Route::get('/post/{id}', 'PostController@show')->where('id', '[0-9]+')->name('po
 Route::get('/post/new', 'PostController@create')->name('new_post');
 Route::post('/post/new', 'PostController@store');
 Route::get('/post/delete/{id}', 'PostController@destroy')->where('id', '[0-9]+')->name('delete');
+Route::get('/post/edit/{id}', 'PostController@edit')->where('id', '[0-9]+')->name('edit');
+Route::put('/post/update/{id}', 'PostController@update');
+Route::get('/admin', 'AdminController@index');
+Route::get('/category/create', 'CategoryController@create');
+Route::post('/category/store', 'CategoryController@store');
 
 Auth::routes();
 

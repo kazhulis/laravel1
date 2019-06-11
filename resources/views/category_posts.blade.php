@@ -15,8 +15,8 @@
                 <tr>
                     <th scope="col">Thumbnail</th>
                     <th class="w-50" scope="col">Title</th>
-                    <th class="w-25" scope="col">Creation date</th>
-                    <th scope="col">Price</th>
+                    <th scope="col">Creation date</th>
+                    <th scope="w-25">Price</th>
                 </tr>
             </thead>
             <tbody>

@@ -12,7 +12,8 @@ use App\User;
 class PostController extends Controller {
 
     public function __construct() {
-        $this->middleware('auth')->only(['create', 'store', 'index','destroy']);
+        $this->middleware('auth')->only(['create', 'store', 'index','destroy','edit','update']);
+        $this->middleware('ban')->only(['create','edit','destroy']);
     }
 
     /**
@@ -144,7 +145,13 @@ class PostController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        //
+        //Check if post owner is the real one
+        $post = Post::findOrFail($id);
+        $post_owner = $post->user_id;
+        if ($post_owner != Auth::id()) {
+            abort('404');
+        }
+        return view('post_update', ['post' => $post, 'categories' => Category::all()->sortBy('name')->pluck('name', 'id')]);
     }
 
     /**
@@ -155,7 +162,29 @@ class PostController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
+        $rules = $rules = array(
+            'title' => 'required|min:3|max:200',
+            'description' => 'required|min:3|max:10000',
+            'category' => 'required|exists:categories,id',
+            'price' => ['required', 'regex:/^(?:[1-9]\d*|0)?(?:\.\d+)?/', 'not_in:0'],
+        );
+
+        $messages = [
+            'title.max' => 'Title should be less than 200 characters!',
+            'price' => 'The price you\'ve entered is in a wrong format!',
+        ];
+
+        $this->validate($request, $rules, $messages);
+
+        //Create a new post
+        $post = Post::find($id);
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->price = $request->price;
+        $post->category_id = $request->category;
+        $post->save();
+        
+        return redirect('home')->withMessage('Your post was successfully edited!');
     }
 
     /**
