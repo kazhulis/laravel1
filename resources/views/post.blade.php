@@ -12,7 +12,7 @@
             <li class="breadcrumb-item active" aria-current="page">Post #{{$post->id}}</li>
         </ol>
     </nav>
-    
+
     <div class="row justify-content-center">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -24,21 +24,23 @@
             <div class="carousel-inner">
                 <?php $counter = 1 ?>
                 @foreach ($post->pictures as $picture)
-                <div class="carousel-item <?php if ($counter == 1) {echo 'active';} ?>">
+                <div class="carousel-item <?php if ($counter == 1) {
+                    echo 'active';
+                } ?>">
                     <img class="d-block w-100" src="{{asset($picture->path)}}" alt="slide">
                 </div>
-                <?php $counter++ ?>
+<?php $counter++ ?>
                 @endforeach
             </div>
             @if (count($post->pictures) > 1)
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
             @endif
         </div>
     </div>

@@ -4,6 +4,12 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" style="background-color: #343A40">
+                    <li class="breadcrumb-item"><a href="{{route('admin')}}" style="color: white">Administrator's panel</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Adding a new category</li>
+                </ol>
+            </nav>
             <div class="card">
                 <div class="card-header">Add a new category</div>
                 <div class="card-body">

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use App\Post;
+use App\Picture;
 
 class AdminController extends Controller {
 
@@ -28,18 +31,11 @@ class AdminController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-        //
-    }
+    public function user($id) {
+        $user = User::FindOrFail($id);
+        $posts = Post::where('user_id', $id)->get();
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request) {
-        //
+        return view('user_ban', ['user' => $user, 'posts' => $posts]);
     }
 
     /**
@@ -48,8 +44,18 @@ class AdminController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
-        //
+    public function ban($id) {
+        $user = User::FindOrFail($id);
+        if ($user->role == 3) {
+            $user->role = 1;
+        } else if ($user->role == 1) {
+            $user->role = 3;
+        }
+        $user->save();
+
+        return redirect()->action(
+                        'AdminController@user', ['id' => $id]
+        );
     }
 
     /**
@@ -80,7 +86,14 @@ class AdminController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        //
-    }
+            $post = Post::findOrFail($id);
+            $post_owner = $post->user_id;
 
+            Picture::where('post_id', $post->id)->delete();
+            $post->delete();
+
+            return redirect()->action(
+                        'AdminController@user', ['id' => $post_owner]
+        );
+        }
 }
