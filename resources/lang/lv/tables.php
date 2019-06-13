@@ -21,6 +21,5 @@ return [
     'title' => 'Virsraksts',
     'price' => 'Cena',
     'date' => 'Izveidots',
-    
 ];
 
