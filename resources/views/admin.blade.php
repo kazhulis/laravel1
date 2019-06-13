@@ -24,7 +24,6 @@
                     <ul class="list-group">
                         <li class="list-group-item"><a href="{{ url('category/create') }}">Add a new category</a></li>
                         <li class="list-group-item"><a href="{{ url('admin/ban') }}">Block a user</a></li>
-                        <li class="list-group-item"><a href="{{ url('admin/orders') }}">View all user orders</a></li>
                     </ul>
                 </div>
             </div>

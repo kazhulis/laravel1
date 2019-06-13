@@ -24,12 +24,14 @@
             <div class="carousel-inner">
                 <?php $counter = 1 ?>
                 @foreach ($post->pictures as $picture)
-                <div class="carousel-item <?php if ($counter == 1) {
+                <div class="carousel-item <?php
+                if ($counter == 1) {
                     echo 'active';
-                } ?>">
+                }
+                ?>">
                     <img class="d-block w-100" src="{{asset($picture->path)}}" alt="slide">
                 </div>
-<?php $counter++ ?>
+                <?php $counter++ ?>
                 @endforeach
             </div>
             @if (count($post->pictures) > 1)
@@ -52,7 +54,36 @@
         <h6>Owner's name: {{ $owner->name }} </h6>
         <h6>E-mail: <b>{{ $owner->email }}</b></h6>
     </div>
-
+    <br>
+    <h3>Comment section {{count($comments)}}</h3>
+    @foreach($comments as $comment)
+    <div class="row mb-3">
+        <div class="card w-50">
+            <div class="card-header">
+                Comment #{{$comment->id}}
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p>{{$comment->comment}}</p>
+                    <footer class="blockquote-footer">{{$comment->user->name}} as: <cite title="Source Title">{{$comment->user->email}}</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    @endforeach
+    <br>
+    <h3>Add your comment!</h3>
+    {!! Form::open(array('action' => ['PostController@comment', $post->id])) !!}
+    {!! Form::textArea('comment','', ['class' => 'col-6 form-control '.($errors->has('comment') ? ' is-invalid' : '' )]) !!}
+    
+    @if ($errors->has('comment'))
+    <span class="invalid-feedback">
+        <strong>{{ $errors->first('comment') }}</strong>
+    </span>
+    @endif  
+    
+    {!! Form::submit('Comment', ['class' => 'mt-3 btn btn-primary']) !!}
+    {!! Form::close() !!}
 
 </div>
 

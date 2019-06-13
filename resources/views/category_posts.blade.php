@@ -32,7 +32,7 @@
                     <td><img src="{{asset($post->pictures->first()->thumbnail)}}" alt="Thumbnail" style="max-height: 100px;"></img></td>
                     <td><a href="{{route('post',['id' => $post->id])}}">{{$post->title}}</td>
                     <td>{{$post->created_at}}</td>
-                    <td>{{$post->price}} €</td>
+                    <td><span class='text-success'><b>{{$post->price}} €</b></span></td>
                 </tr>
                 @endforeach
             </tbody>

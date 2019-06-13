@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\User;
 use App\Post;
@@ -24,6 +25,11 @@ class AdminController extends Controller {
      */
     public function index() {
         return view('admin');
+    }
+    
+    public function list() {
+        $user = User::paginate(15);
+        return view('users_all', ['users' => $user]);
     }
 
     /**
