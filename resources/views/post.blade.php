@@ -7,7 +7,7 @@
     </div>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: #343A40">
-            <li class="breadcrumb-item"><a href="{{route('categories')}}" style="color: white">Categories</a></li>
+            <li class="breadcrumb-item"><a href="{{route('categories')}}" style="color: white">{{__('navbar.panel')}}</a></li>
             <li class="breadcrumb-item"><a href="{{route('category',['id' => $post->category_id])}}" style="color: white">{{$post->category->name}}</a></li>
             <li class="breadcrumb-item active" aria-current="page">Post #{{$post->id}}</li>
         </ol>

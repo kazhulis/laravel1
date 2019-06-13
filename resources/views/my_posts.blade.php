@@ -4,7 +4,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: #343A40">
-            <li class="breadcrumb-item"><a href="{{route('categories')}}" style="color: white">Categories</a></li>
+            <li class="breadcrumb-item"><a href="{{route('categories')}}" style="color: white">{{__('navbar.panel')}}</a></li>
             <li class="breadcrumb-item active" aria-current="page">Home page</li>
         </ol>
     </nav>
@@ -29,9 +29,9 @@
                 <div class="card-body">
                     <h5 class="card-title">{{$post->title}}</h5>
                     <h4 class="card-text text-success"><b>€{{$post->price}}</b></p>
-                        <a href="{{route('post', ['id' => $post->id])}}" class="btn btn-light">View</a>
-                        <a href="{{route('edit', ['id' => $post->id])}}" class="btn btn-light">Edit</a>
-                        <a href="{{route('delete', ['id' => $post->id])}}" onclick="return confirm('Are you sure you want to delete this item?')" class="btn btn-danger float-right">Delete</a>
+                        <a href="{{route('post', ['id' => $post->id])}}" class="btn btn-light">{{__('tables.view')}}</a>
+                        <a href="{{route('edit', ['id' => $post->id])}}" class="btn btn-light">{{__('tables.edit')}}</a>
+                        <a href="{{route('delete', ['id' => $post->id])}}" onclick="return confirm('Are you sure you want to delete this item?')" class="btn btn-danger float-right">{{__('tables.delete')}}</a>
                 </div>
             </div>
         </div>

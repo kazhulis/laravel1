@@ -34,7 +34,7 @@
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('categories') }}">Categories</a>
+                                <a class="nav-link" href="{{ route('categories') }}">{{ __('navbar.categories') }}</a>
                             </li>
 
                         </ul>
@@ -43,20 +43,31 @@
                         <ul class="navbar-nav ml-auto">
                             @if (Auth::check())
                             <li class="nav-item mr-1">
-                                <a class="btn btn-light" href="{{ route('new_post') }}">New post</a>
+                                <a class="btn btn-light" href="{{ route('new_post') }}">{{ __('navbar.new') }}</a>
                             </li>
                             <li class="nav-item mr-1">
-                                <a class="nav-link" href="{{ route('my_posts') }}">My posts</a>
+                                <a class="nav-link" href="{{ route('my_posts') }}">{{ __('navbar.my') }}</a>
                             </li>
                             @endif
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{__('navbar.language')}}<span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{url('/locale/en')}}">English</a>
+                                    <a class="dropdown-item" href="{{url('/locale/lv')}}">Latviešu</a>
+                                </div>
+                            </li>
+
                             <!-- Authentication Links -->
                             @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('navbar.login') }}</a>
                             </li>
                             @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('navbar.register') }}</a>
                             </li>
                             @endif
                             @else
@@ -67,12 +78,12 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     @if (Auth::user()->isAdmin())
-                                    <a class="dropdown-item" href="{{url('/admin')}}">Admin's panel</a>
+                                    <a class="dropdown-item" href="{{url('/admin')}}">{{ __('navbar.panel') }}</a>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
-    document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                               document.getElementById('logout-form').submit();">
+                                        {{ __('navbar.logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

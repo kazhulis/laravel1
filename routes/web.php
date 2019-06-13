@@ -27,6 +27,11 @@ Route::get('admin/ban/{id}', 'AdminController@ban')->name('ban');
 Route::get('admin/delete/{id}', 'AdminController@destroy')->name('admin_delete');
 Route::get('admin/ban/', 'AdminController@list')->name('list_all');
 Route::post('comment/new/{id}', 'PostController@comment');
+//Set language
+Route::get('locale/{locale}', function ($locale){
+    Session::put('locale',$locale);
+    return redirect()->back();
+});
 Auth::routes();
 
 Route::get('/home', 'PostController@index')->name('my_posts');

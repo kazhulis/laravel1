@@ -4,7 +4,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: #343A40">
-            <li class="breadcrumb-item"><a href="{{route('admin')}}" style="color: white">Administrator's panel</a></li>
+            <li class="breadcrumb-item"><a href="{{route('admin')}}" style="color: white">{{__('navbar.panel')}}</a></li>
             <li class="breadcrumb-item active" aria-current="page">Viewing a user</li>
         </ol>
     </nav>
