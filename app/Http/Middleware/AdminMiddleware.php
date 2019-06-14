@@ -18,7 +18,7 @@ class AdminMiddleware
     {
         if (!(Auth::check() && Auth::user()->isAdmin()))
         {
-            return redirect('home')->withErrors('You need to be an administrator to do that!');
+            return redirect('/');
         }
         return $next($request);
     }

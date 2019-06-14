@@ -4,7 +4,6 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: #343A40">
-            <li class="breadcrumb-item"><a href="{{route('categories')}}" style="color: white">{{__('navbar.panel')}}</a></li>
             <li class="breadcrumb-item active" aria-current="page">Home page</li>
         </ol>
     </nav>
@@ -20,6 +19,11 @@
     </div>
     @endif  
     <div class="d-flex row">
+        @if (count($posts) == 0)
+        <div class="justify-content-center alert alert-secondary">
+            <p>You don't have any posts</p>
+        </div>
+        @endif
         @foreach ($posts as $post)
         <div class="col-lg-3 col-sm-4 col-xs-2">
             <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
