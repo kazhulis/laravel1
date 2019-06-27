@@ -6,8 +6,8 @@
         <div class="d-flex row">
             @foreach ($categories as $category)
             <div class="col-lg-3 col-sm-4 col-xs-2">
-                <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-                    <div class="card-header">{{ ucfirst($category->name) }} ({{ count($category->posts) }} items)</div>
+                <div class="card text-white bg-dark mb-3" style="max-width: 18rem;width:300px;">
+                    <div class="card-header">{{ ucfirst($category->name) }} ({{ count($category->posts) }} Results)</div>
                     <div class="card-body">
                         <p class="card-text">{{ $category->description }}</p>
                     </div>

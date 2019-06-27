@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\User;
 use App\Post;
-use App\Picture;
+
 
 class AdminController extends Controller {
 
@@ -95,7 +95,7 @@ class AdminController extends Controller {
             $post = Post::findOrFail($id);
             $post_owner = $post->user_id;
 
-            Picture::where('post_id', $post->id)->delete();
+
             $post->delete();
 
             return redirect()->action(

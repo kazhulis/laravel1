@@ -41,17 +41,7 @@
                             @endif
                         </div>
                     </div>
-                    <div class="form-group row">
-                        {!! Form::label('price', 'Price', ['class' => 'col-md-4 control-label text-md-right']) !!}
-                        <div class="col-md-6">
-                            {!! Form::number('price', $post->price, ['class' => 'form-control '.($errors->has('price') ? ' is-invalid' : '' ), 'min' => 0, 'max' => 1000000, 'step' => 0.01, 'placeholder' => '30.04']) !!}
-                            @if ($errors->has('price'))
-                            <span class="invalid-feedback">
-                                <strong>{{ $errors->first('price') }}</strong>
-                            </span>
-                            @endif                    
-                        </div>
-                    </div>
+
                     <div class="form-group row">
                         <div class="col-md-6 offset-md-4">
                             {!! Form::submit('Add', ['class' => 'btn btn-primary']) !!}
